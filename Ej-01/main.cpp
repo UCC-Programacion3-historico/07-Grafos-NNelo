@@ -19,6 +19,10 @@ int main() {
     cout << "ady 1-2: " << gr.adyacentes(1, 2) << endl;
     cout << "ady 2-3: " << gr.adyacentes(2, 3) << endl;
 
+    system("pause");
+    system("cls");
     std::cout << "Ejercicio 07/01\n" << std::endl;
     return 0;
 }
+
+//ncourses

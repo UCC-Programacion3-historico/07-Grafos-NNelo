@@ -1,12 +1,25 @@
 #ifndef GRAFOENLAZADO_H
 #define GRAFOENLAZADO_H
 
+#include "Lista.h"
+
+typedef struct Arco;
+
+template<class T>
+typedef struct {
+    T dato;
+    Lista<Arco> arcos;
+} NodoGr;
+
+typedef struct {
+    int valor;
+    NodoGr *ptr;
+} Arco;
 
 template<class T>
 class GrafoEnlazado {
-
 private:
-
+    Lista<NodoGr> listaNodos;
 
 public:
     GrafoEnlazado();
@@ -42,12 +55,12 @@ public:
 
 template<class T>
 GrafoEnlazado<T>::GrafoEnlazado() {
-
+    Lista<NodoGr> listaNodos;
 }
 
 template<class T>
 void GrafoEnlazado<T>::nodo_agregar(int n, T val) {
-
+    listaNodos.insertarUltimo({val, nullptr});
 }
 
 template<class T>
@@ -66,8 +79,15 @@ int GrafoEnlazado<T>::nodo_get_val(int n2) {
 }
 
 template<class T>
-void GrafoEnlazado<T>::arco_agregar(int n1, int n2, int val) {
+void GrafoEnlazado<T>::arco_agregar(T n1, T n2, int val) {
+    if(!listaNodos.pertenece(n1))
+        throw 1;
+    if(!listaNodos.pertenece(n2))
+        throw 2;
 
+    // controlar que el arco no exista de antes
+
+    while
 }
 
 template<class T>
@@ -99,6 +119,5 @@ template<class T>
 bool GrafoEnlazado<T>::esVacio() {
     return false;
 }
-
 
 #endif //GRAFOENLAZADO_H

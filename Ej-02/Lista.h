@@ -9,7 +9,6 @@
 
 template<class T>
 class Nodo {
-    // friend class Lista;
 private:
     T dato;
     Nodo *next;
@@ -39,7 +38,6 @@ public:
     void setNext(Nodo *n) {
         next = n;
     }
-
 };
 
 /**
@@ -70,6 +68,10 @@ public:
 
     void remover(int pos);
 
+    void remover(T);
+
+    void remover(Nodo<T> *);
+
     T getDato(int pos);
 
     void reemplazar(int pos, T dato);
@@ -77,6 +79,10 @@ public:
     void vaciar();
 
     bool pertenece(T);
+
+    Nodo<T> *delataNodo(T);
+
+    Nodo<T> *getInicio() const;
 };
 
 
@@ -254,6 +260,26 @@ void Lista<T>::remover(int pos) {
     delete[] tmp;
 }
 
+template<class T>
+void Lista<T>::remover(T valor) {
+    Nodo<T> *aux = inicio;
+    Nodo<T> *ant = nullptr;
+
+    while (aux != valor && aux != nullptr) {
+        ant = aux;
+        aux = aux->getNext();
+    }
+
+    if (nullptr == aux)
+        throw -1;
+
+    if (nullptr == ant)
+        inicio = inicio->getNext();
+    else
+        ant->setNext(aux->getNext());
+
+    delete aux;
+}
 
 /**
  * Obtener el dato del nodo en la posicion pos
@@ -320,11 +346,34 @@ template<class T>
 bool Lista<T>::pertenece(T dato) {
     Nodo<T> *aux = inicio;
     while (aux != NULL) {
-        if(aux->getDato()==dato)
+        if (aux->getDato() == dato)
             return true;
-        aux=aux->getNext();
+        aux = aux->getNext();
     }
     return false;
+}
+
+/**
+ * Función que devuelve la ubicacion de un nodo con un valor especifico
+ * @tparam T valor que se espera del nodo
+ * NOTE: se implementa para cambiar el valor de un vertice en un grafo
+ */
+template<class T>
+Nodo<T> *Lista<T>::delataNodo(T buscado) {
+    Nodo<T> *aux = inicio;
+
+    while (nullptr != aux && aux->getDato() != buscado)
+        aux = aux->getNext();
+
+    if (nullptr == aux)
+        throw -1;
+
+    return aux;
+}
+
+template<class T>
+Nodo<T> *Lista<T>::getInicio() const {
+    return inicio;
 }
 
 #endif //INC_07_GRAFOS_LIST_H

@@ -2,9 +2,12 @@
 #define GRAFOENLAZADO_H
 
 #include "Lista.h"
+#include "Vertice.h"
+#include "Arco.h"
 
 //Implemente una clase Grafo utilizando nodos enlazados
 
+/*
 typedef struct Arco;
 
 template<class T, class P>      // P peso de los arcos
@@ -20,6 +23,12 @@ struct Arco {                        //tabla Adyacentes
     P peso;
     Nodo<Vertice> *ptrVert;      // imp: apunta a un NODO que es del tipo vertice
 };                         // arco es la info de nodoArco, contiene dato P y puntero a Vertice
+*/
+
+
+
+
+
 
 /**
  * Clase que implementa la representación de un grafo por listas multienlazadas

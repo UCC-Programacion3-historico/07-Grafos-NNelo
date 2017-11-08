@@ -7,29 +7,6 @@
 
 //Implemente una clase Grafo utilizando nodos enlazados
 
-/*
-typedef struct Arco;
-
-template<class T, class P>      // P peso de los arcos
-typedef
-struct Vertice {
-    T dato;
-    Lista<Arco> tablaAdyacentes;
-};                      // vertice es la info de nodoVertice, tiene dato y puntero a lista multienlazada
-
-template<class T, class P>
-typedef
-struct Arco {                        //tabla Adyacentes
-    P peso;
-    Nodo<Vertice> *ptrVert;      // imp: apunta a un NODO que es del tipo vertice
-};                         // arco es la info de nodoArco, contiene dato P y puntero a Vertice
-*/
-
-
-
-
-
-
 /**
  * Clase que implementa la representación de un grafo por listas multienlazadas
  * @tparam T cualquier tipo de dato para valores de los nodos o vertices
@@ -39,9 +16,9 @@ struct Arco {                        //tabla Adyacentes
 template<class T, class P>
 class GrafoEnlazado {
 private:
-    Lista<Vertice> tablaDirectorio;  // Lista multienlazada que contiene los vertices
+    Lista<Vertice<T, P>> tablaDirectorio;  // Lista multienlazada que contiene los vertices
 
-    Nodo<Arco> *devuelveArco(Nodo<Vertice> *, Nodo<Vertice> *);
+    Nodo<Arco<T,P>> *devuelveArco(Nodo<Vertice<T,P>> *, Nodo<Vertice<T,P>> *);
 
 public:
     GrafoEnlazado();
@@ -96,8 +73,8 @@ void GrafoEnlazado<T, P>::nodo_remover(T val) {
  */
 template<class T, class P>
 void GrafoEnlazado<T, P>::nodo_set_val(T valAnt, T valNuevo) {
-    Nodo<Vertice> *aux = tablaDirectorio.delataNodo(valAnt);        // calculo que aca se tira la excp
-    Vertice tmp = {aux->getDato().dato, aux->getDato().tablaAdyacentes};
+    Nodo<Vertice<T,P>> *aux = tablaDirectorio.delataNodo(valAnt);        // calculo que aca se tira la excp
+    Vertice<T,P> tmp = {aux->getDato().dato, aux->getDato().tablaAdyacentes};
     aux->setDato({valNuevo, tmp.tablaAdyacentes});
 }
 
@@ -116,8 +93,8 @@ void GrafoEnlazado<T, P>::arco_agregar(T datoV1, T datoV2, P peso) {
 
     // controlar que el arco no exista de antes
 
-    Nodo<Vertice> *V1 = tablaDirectorio.delataNodo(datoV1); //tira excp?
-    Nodo<Vertice> *V2 = tablaDirectorio.delataNodo(datoV2);
+    Nodo<Vertice<T,P>> *V1 = tablaDirectorio.delataNodo(datoV1); //tira excp?
+    Nodo<Vertice<T,P>> *V2 = tablaDirectorio.delataNodo(datoV2);
 
     if (this->devuelveArco(V1, V2) != nullptr)
         throw -48;
@@ -132,8 +109,8 @@ void GrafoEnlazado<T, P>::arco_agregar(T datoV1, T datoV2, P peso) {
  * @param entra vertice con arco interno
  */
 template<class T, class P>
-Nodo<Arco> *GrafoEnlazado<T, P>::devuelveArco(Nodo<Vertice> *sale, Nodo<Vertice> *entra) {
-    Nodo<Arco> *aux = sale->getDato().tablaAdyacentes.getInicio();
+Nodo<Arco<T,P>> *GrafoEnlazado<T, P>::devuelveArco(Nodo<Vertice<T,P>> *sale, Nodo<Vertice<T,P>> *entra) {
+    Nodo<Arco<T,P>> *aux = sale->getDato().tablaAdyacentes.getInicio();
 
     while (nullptr != aux) {
         if (aux->getDato().ptrVert == entra)
@@ -145,9 +122,9 @@ Nodo<Arco> *GrafoEnlazado<T, P>::devuelveArco(Nodo<Vertice> *sale, Nodo<Vertice>
 
 template<class T, class P>
 void GrafoEnlazado<T, P>::arco_remover(T datoV1, T datoV2) {
-    Nodo<Vertice> *V1 = tablaDirectorio.delataNodo(datoV1);
+    Nodo<Vertice<T,P>> *V1 = tablaDirectorio.delataNodo(datoV1);
 
-    Nodo<Arco> *tmp = this->devuelveArco(V1, tablaDirectorio.delataNodo(datoV2));
+    Nodo<Arco<T,P>> *tmp = this->devuelveArco(V1, tablaDirectorio.delataNodo(datoV2));
     if (tmp == nullptr)
         throw -4;
 
@@ -157,10 +134,10 @@ void GrafoEnlazado<T, P>::arco_remover(T datoV1, T datoV2) {
 
 template<class T, class P>
 void GrafoEnlazado<T, P>::arco_set_val(T datoV1, T datoV2, P nuevo) {
-    Nodo<Vertice> *V1 = tablaDirectorio.delataNodo(datoV1);
-    Nodo<Vertice> *V2 = tablaDirectorio.delataNodo(datoV2);
+    Nodo<Vertice<T,P>> *V1 = tablaDirectorio.delataNodo(datoV1);
+    Nodo<Vertice<T,P>> *V2 = tablaDirectorio.delataNodo(datoV2);
 
-    Nodo<Arco> *tmp = this->devuelveArco(V1, V2);
+    Nodo<Arco<T,P>> *tmp = this->devuelveArco(V1, V2);
     if (tmp == nullptr)
         throw -4;
 
@@ -169,10 +146,10 @@ void GrafoEnlazado<T, P>::arco_set_val(T datoV1, T datoV2, P nuevo) {
 
 template<class T, class P>
 P GrafoEnlazado<T, P>::arco_get_val(T datoV1, T datoV2) {
-    Nodo<Vertice> *V1 = tablaDirectorio.delataNodo(datoV1);
-    Nodo<Vertice> *V2 = tablaDirectorio.delataNodo(datoV2);
+    Nodo<Vertice<T,P>> *V1 = tablaDirectorio.delataNodo(datoV1);
+    Nodo<Vertice<T,P>> *V2 = tablaDirectorio.delataNodo(datoV2);
 
-    Nodo<Arco> *tmp = this->devuelveArco(V1, V2);
+    Nodo<Arco<T,P>> *tmp = this->devuelveArco(V1, V2);
     if (tmp == nullptr)
         throw -4;
 
@@ -188,7 +165,7 @@ bool GrafoEnlazado<T, P>::adyacentes(T datoV1, T datoV2) {
 // IMPORTANTE: se debe liberar la memoria generada en este metodo
 template<class T, class P>
 Lista<T> *GrafoEnlazado<T, P>::vecinos(T valorV) {
-    Nodo<Arco> *auxArcos = tablaDirectorio.delataNodo(valorV)->getDato().tablaAdyacentes.getInicio();
+    Nodo<Arco<T,P>> *auxArcos = tablaDirectorio.delataNodo(valorV)->getDato().tablaAdyacentes.getInicio();
     Lista<T> *R = new Lista<T>();
 
     while (nullptr != auxArcos) {

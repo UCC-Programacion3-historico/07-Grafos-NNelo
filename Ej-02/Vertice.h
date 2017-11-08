@@ -9,11 +9,13 @@
 #include "Arco.h"
 
 template<class T, class P>
+class Arco;
+
+template<class T, class P>
 class Vertice {
 public:
-    typedef class Arco;
     T dato;
-    Lista<Arco> tablaAdyacentes;
+    Lista<Arco<T, P>> tablaAdyacentes;
 
 };
 
